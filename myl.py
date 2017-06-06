@@ -7,6 +7,7 @@ planzi = 31
 ptua = 4
 alpar = 65
 spar = 1
+titin = 0
 def clear():
 	os.system('cls' if os.name == 'nt' else 'clear')
 def invio():
@@ -22,7 +23,6 @@ Ogni 4 turni si terrà il congresso, nel quale potrai candidarti segretario,
 proporre iniziative o dichiarare la scissione.
 Ma attenzione, se alle elezioni che si tengono ogni 9 turni
 non avrai almeno il 4% dovrai ritirarti dalla vita politica!"""
-print ptua
 invio()
 clear()
 def gioco():
@@ -33,14 +33,15 @@ def gioco():
 		ptua = 0
 	if planzi < 0:
 		planzi = 0
-	ptot = ptua = planzi
 	turno = turno +1
 	if spar == 1:
 		print "Unione Democratica - Sistema Informatico"
 	else:
 		print "Federazione Nuova Sinistra - Sistema Informatico"
+	print "Mese", turno
+	titin = 0
 	planzi = planzi + random.randint(-5,5)
-	#ptua = ptua + random.randint(-1,1)
+	ptua = ptua + random.randint(-1,1)
 	#qui inizia il giornale
 	gior = random.randint(1,10)
 
@@ -113,19 +114,40 @@ def gioco():
 			else:
 				print("Perdi la segreteria")
 				ptua = ptua + random.randint(-4,6)
-				planzi = plandi + random.randint(-6,7)
+				planzi = planzi + random.randint(-6,7)
 		elif l == 2:
 			print("L'Osservatore del Parlamento\nRivoluzione a Sinistra! Dichiarata la scissione\nNasce Nuova Sinistra")
 			spar = 0
+			titin = 1
 		elif l == 3:
 			print("L'Osservatore del Parlamento\nIl Collettivo Nuova Sinistra supporta Lanzi")
 			ptua = ptua + random.randint(-2,5)
-			planzi = plandi + random.randint(-3,6)
+			planzi = planzi + random.randint(-3,6)
 		elif l == 4:
 			print("L'Osservatore del Parlamento\nIl famoso deputato di Nuova Sinistra: 'Viva la Democrazia'")
 			ptua = ptua + random.randint(-1,2)
 		elif l == 5:
 			print("L'Osservatore del Parlamento\nStrappo di Nuova Sinistra? Mancanti al congresso")
+#elezioni
+	if spar == 0 and titin == 0 and turno%9 == 0:
+		if coeff >= 4 and random.randint(1,8) > 5 and coeff < 6:
+			print("L'Osservatore del Parlamento\nNuova Sinistra, cadrega al fondatore ma gli altri all'asciutto")
+			vittoria()
+		elif coeff >= 4 and random.randint(1,8) < 5:
+			print("L'Osservatore del Parlamento\nFlop Nuova Sinistra, un solo eletto all'uninominale")
+			vittoria()
+		elif coeff < 4:
+			print("L'Osservatore del Parlamento\nNuova Sinistra Flop, non supera lo sbarramento")
+			exit()
+		elif coeff > 6:
+			print("L'Osservatore del Parlamento\nNuova Sinistra, buon risultato!")
+			vittoria()
+		elif coeff > 10:
+			print("L'Osservatore del Parlamento\nNasce la Nuova Sinistra, superato il 10%")
+			vittoria()
+		elif coeff > 45:
+			print("L'Osservatore del Parlamento\nIncredibile! Nuova Sinistra al Governo")
+			vittoria()
 	invio()
 	clear()
 	gioco()
