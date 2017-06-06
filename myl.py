@@ -24,13 +24,14 @@ proporre iniziative o dichiarare la scissione.
 Ma attenzione, se alle elezioni che si tengono ogni 9 turni
 non avrai almeno il 4% dovrai ritirarti dalla vita politica!"""
 
-
+invio()
+clear()
 def gioco():
-	global ptua,planzi.ptot,turno,alpar
-	alpar = alpar + random.randint(3,3)
+	global ptua,planzi,ptot,turno,alpar
+	alpar = alpar + random.randint(-3,3)
 	if ptua < 0:
 		ptua = 0
-	if planzi = 0:
+	if planzi < 0:
 		planzi = 0
 	ptot = ptua = planzi
 	turno = turno +1
@@ -38,6 +39,8 @@ def gioco():
 		print "Unione Democratica - Sistema Informatico"
 	else:
 		print "Federazione Nuova Sinistra - Sistema Informatico"
+	planzi = planzi + random.randint(-2,2)
+	ptua = ptua + random.randint(-1,1)
 	#qui inizia il giornale
 	gior = random.randint(1,10)
 	print("La Sinistra Unita - Giornale dei Lavoratori")
@@ -78,4 +81,18 @@ def gioco():
 		print "Appalti truccati ad Airate per la stazione? Consiglieri UD assolti!"
 		planzi = planzi + random.randint(-4,3)
 		ptua = ptua + random.randint(-1,2)
+	print("*"*40)
+	print "Voti Lanzi: ", planzi
+	print "Voti tuoi: ", ptua
+	print "Altri partiti: ", alpar
+	coeff = (((planzi+ptua+alpar)/100)*4)
+	print coeff
+	print "SONDAGGI:"
+	if coeff < ptua:
+		print "Elezione probabile"
+	else:
+		print "Elezione a rischio"
+	invio()
+	clear()
+	gioco()
 gioco()
