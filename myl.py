@@ -7,6 +7,7 @@ planzi = 31
 ptua = 4
 alpar = 65
 spar = 1
+coeff = 0
 titin = 0
 def clear():
 	os.system('cls' if os.name == 'nt' else 'clear')
@@ -26,7 +27,7 @@ non avrai almeno il 4% dovrai ritirarti dalla vita politica!"""
 invio()
 clear()
 def gioco():
-	global ptua,planzi,turno,alpar,spar
+	global ptua,planzi,turno,alpar,spar,titin, coeff
 
 	alpar = alpar + random.randint(3,3)
 	if ptua < 0:
@@ -46,7 +47,8 @@ def gioco():
 	gior = random.randint(1,10)
 
 	print("La Sinistra Unita - Giornale dei Lavoratori")
-
+	if titin > 0:
+		titin = titin -1
 	if gior == 1:
 		print "Matteo Lanzi: Bisogna cambiare la Sinista"
 		planzi = planzi + random.randint(-2,4)
@@ -110,7 +112,7 @@ def gioco():
 		if l == 1:
 			if ptua > planzi and random.randint(1,10) > 4:
 				print("Sei stato eletto segretario!")
-				vittoria()
+				vittoria(10000)
 			else:
 				print("Perdi la segreteria")
 				ptua = ptua + random.randint(-4,6)
@@ -118,7 +120,7 @@ def gioco():
 		elif l == 2:
 			print("L'Osservatore del Parlamento\nRivoluzione a Sinistra! Dichiarata la scissione\nNasce Nuova Sinistra")
 			spar = 0
-			titin = 1
+			titin = 2
 		elif l == 3:
 			print("L'Osservatore del Parlamento\nIl Collettivo Nuova Sinistra supporta Lanzi")
 			ptua = ptua + random.randint(-2,5)
@@ -128,31 +130,42 @@ def gioco():
 			ptua = ptua + random.randint(-1,2)
 		elif l == 5:
 			print("L'Osservatore del Parlamento\nStrappo di Nuova Sinistra? Mancanti al congresso")
+		elif l == 55: #debug
+			ptua = input("Ptua")
+			planzi = input("Planzi")
 #elezioni
 	if spar == 0 and titin == 0 and turno%9 == 0:
+		print("OGGI ELEZIONI PARLAMENTARI!")
+		invio()
 		if coeff >= 4 and random.randint(1,8) > 5 and coeff < 6:
 			print("L'Osservatore del Parlamento\nNuova Sinistra, cadrega al fondatore ma gli altri all'asciutto")
-			vittoria()
+			vittoria(1000)
 		elif coeff >= 4 and random.randint(1,8) < 5:
 			print("L'Osservatore del Parlamento\nFlop Nuova Sinistra, un solo eletto all'uninominale")
-			vittoria()
+			vittoria(500)
 		elif coeff < 4:
 			print("L'Osservatore del Parlamento\nNuova Sinistra Flop, non supera lo sbarramento")
 			exit()
 		elif coeff > 6:
 			print("L'Osservatore del Parlamento\nNuova Sinistra, buon risultato!")
-			vittoria()
+			vittoria(-1)
 		elif coeff > 10:
 			print("L'Osservatore del Parlamento\nNasce la Nuova Sinistra, superato il 10%")
-			vittoria()
+			vittoria(-1)
 		elif coeff > 45:
 			print("L'Osservatore del Parlamento\nIncredibile! Nuova Sinistra al Governo")
-			vittoria()
+			vittoria(-1)
 	invio()
 	clear()
 	gioco()
 
-def vittoria():
-		print("Pota")
-		exit()
+def vittoria(n):
+	global ptua,planzi,turno,alpar,spar,titin, coeff
+	print("Hai vinto\nPUNTEGGIO:")		
+	if n < 0:
+		punteggio = int(coeff+(100-turno))*ptua
+	else:
+		punteggio = n
+	print(punteggio)
+	exit()
 gioco()
